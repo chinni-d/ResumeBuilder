@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Create Resume - Resume Builder{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">
+                        <i class="fas fa-plus text-primary me-2"></i>Create New Resume
+                    </h2>
+                    
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label for="title" class="form-label">Resume Title</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="e.g., Software Developer Resume" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Choose Template</label>
+                            <div class="row">
+                                <!-- Classic Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="1">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="1" id="template1" checked class="d-none">
+                                            <label for="template1" class="template-label">
+                                                <div class="template-preview classic-preview mb-2"></div>
+                                                <h6>Classic</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Modern Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="2">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="2" id="template2" class="d-none">
+                                            <label for="template2" class="template-label">
+                                                <div class="template-preview modern-preview mb-2"></div>
+                                                <h6>Modern</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Creative Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="3">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="3" id="template3" class="d-none">
+                                            <label for="template3" class="template-label">
+                                                <div class="template-preview creative-preview mb-2"></div>
+                                                <h6>Creative</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Executive Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="4">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="4" id="template4" class="d-none">
+                                            <label for="template4" class="template-label">
+                                                <div class="template-preview executive-preview mb-2"></div>
+                                                <h6>Executive</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Second Row of Templates -->
+                            <div class="row">
+                                <!-- Tech Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="5">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="5" id="template5" class="d-none">
+                                            <label for="template5" class="template-label">
+                                                <div class="template-preview tech-preview mb-2"></div>
+                                                <h6>Tech</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Minimal Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="6">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="6" id="template6" class="d-none">
+                                            <label for="template6" class="template-label">
+                                                <div class="template-preview minimal-preview mb-2"></div>
+                                                <h6>Minimal</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bold Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="7">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="7" id="template7" class="d-none">
+                                            <label for="template7" class="template-label">
+                                                <div class="template-preview bold-preview mb-2"></div>
+                                                <h6>Bold</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Elegant Template -->
+                                <div class="col-md-3 mb-3">
+                                    <div class="card template-card" data-template="8">
+                                        <div class="card-body text-center p-3">
+                                            <input type="radio" name="template_id" value="8" id="template8" class="d-none">
+                                            <label for="template8" class="template-label">
+                                                <div class="template-preview elegant-preview mb-2"></div>
+                                                <h6>Elegant</h6>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary me-md-2">
+                                <i class="fas fa-arrow-left me-2"></i>Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus me-2"></i>Create Resume
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const templateCards = document.querySelectorAll('.template-card');
+    
+    templateCards.forEach(card => {
+        card.addEventListener('click', function() {
+            // Remove active class from all cards
+            templateCards.forEach(c => c.classList.remove('border-primary', 'bg-light'));
+            
+            // Add active class to clicked card
+            this.classList.add('border-primary', 'bg-light');
+            
+            // Check the radio button
+            const radio = this.querySelector('input[type="radio"]');
+            radio.checked = true;
+        });
+    });
+    
+    // Set initial active state
+    document.querySelector('.template-card[data-template="1"]').classList.add('border-primary', 'bg-light');
+});
+</script>
+{% endblock %}
