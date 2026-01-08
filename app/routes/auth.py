@@ -53,8 +53,11 @@ def register():
             return redirect(url_for('auth.login'))
         except Exception as e:
             db.session.rollback()
-            print(f"Registration error: {str(e)}")
-            flash(f'Registration failed: {str(e)}', 'error')
+            error_msg = str(e)
+            print(f"Registration error: {error_msg}")
+            import traceback
+            traceback.print_exc()
+            flash(f'Registration failed: {error_msg}', 'error')
     
     return render_template('auth/register.html')
 
