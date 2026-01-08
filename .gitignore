@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment Variables (IMPORTANT - Contains secrets!)
+.env
+.env.local
+.env.production
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Vercel
+.vercel
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Development scripts (optional - keep if you want)
+check_tables.py
+inspect_db.py
