@@ -13,6 +13,7 @@
                 </div>
                 <div class="card-body" style="max-height: 90vh; overflow-y: auto;">
                     <form id="resumeForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" id="resumeId" value="{{ resume.id }}">
                         
                         <!-- Resume Title -->
