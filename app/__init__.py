@@ -14,8 +14,18 @@ def create_app():
     
     # Configuration
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///resume_builder.db')
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///resume_builder.db')
+    
+    # Fix for PostgreSQL URLs from some providers (Heroku style)
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
     
     # Initialize extensions
     db.init_app(app)
@@ -41,8 +51,11 @@ def create_app():
     app.register_blueprint(main_bp)
     app.register_blueprint(resume_bp)
     
-    # Create tables
+    # Create tables (only in non-serverless environments or first request)
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+        except Exception as e:
+            print(f"Database initialization warning: {e}")
     
     return app

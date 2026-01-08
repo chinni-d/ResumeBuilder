@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 # Database path
-db_path = 'resume_builder.db'
+db_path = 'instance/resume_builder.db'
 
 if os.path.exists(db_path):
     conn = sqlite3.connect(db_path)
