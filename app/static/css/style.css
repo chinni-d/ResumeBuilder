@@ -1,0 +1,508 @@
+/* Custom styles for Resume Builder */
+
+.template-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: auto;
+}
+
+.template-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.template-label {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+/* Template Images */
+.template-image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 5px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.template-card:hover .template-image {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.2);
+}
+
+.template-card.border-primary .template-image {
+    border-color: #007bff;
+    box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+}
+
+.template-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #495057;
+    margin-top: 8px;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.template-card.border-primary .template-name {
+    color: #007bff;
+}
+
+/* Resume Preview Styles */
+.resume-preview {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.4;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Template 1 - Classic Professional */
+.resume-preview.template-1 {
+    color: #333;
+}
+
+.resume-preview.template-1 .header {
+    text-align: center;
+    border-bottom: 3px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.resume-preview.template-1 .section-title {
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #333;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Template 2 - Modern Blue */
+.resume-preview.template-2 {
+    color: #2c3e50;
+    border-left: 5px solid #3498db;
+}
+
+.resume-preview.template-2 .header {
+    text-align: left;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 15px;
+    margin: -20px -20px 20px -20px;
+    border-radius: 0;
+}
+
+.resume-preview.template-2 .name {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.resume-preview.template-2 .contact {
+    color: rgba(255,255,255,0.9);
+}
+
+.resume-preview.template-2 .section-title {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+    font-size: 18px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* Template 3 - Creative Green */
+.resume-preview.template-3 {
+    color: #2c3e50;
+    position: relative;
+}
+
+.resume-preview.template-3::before {
+    content: '';
+    position: absolute;
+    left: -20px;
+    top: -20px;
+    bottom: -20px;
+    width: 6px;
+    background: linear-gradient(to bottom, #27ae60, #2ecc71);
+}
+
+.resume-preview.template-3 .header {
+    text-align: center;
+    background: #f8f9fa;
+    padding: 20px;
+    margin: -20px -20px 20px -20px;
+    border-left: 6px solid #27ae60;
+}
+
+.resume-preview.template-3 .section-title {
+    color: #27ae60;
+    border-left: 4px solid #27ae60;
+    padding-left: 15px;
+    border-bottom: none;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+/* Template 4 - Executive Purple */
+.resume-preview.template-4 {
+    color: #2c3e50;
+    font-family: 'Georgia', serif;
+}
+
+.resume-preview.template-4 .header {
+    text-align: center;
+    border: 2px solid #8e44ad;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+}
+
+.resume-preview.template-4 .name {
+    font-size: 32px;
+    color: #8e44ad;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+.resume-preview.template-4 .section-title {
+    color: #8e44ad;
+    border-bottom: 1px solid #8e44ad;
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+/* Template 5 - Tech Orange */
+.resume-preview.template-5 {
+    color: #2c3e50;
+    font-family: 'Courier New', monospace;
+}
+
+.resume-preview.template-5 .header {
+    background: #34495e;
+    color: #ecf0f1;
+    padding: 15px;
+    margin: -20px -20px 20px -20px;
+    position: relative;
+}
+
+.resume-preview.template-5 .header::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #34495e;
+}
+
+.resume-preview.template-5 .section-title {
+    color: #e67e22;
+    background: #ecf0f1;
+    padding: 8px 15px;
+    border-left: 4px solid #e67e22;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+/* Template 6 - Minimal Gray */
+.resume-preview.template-6 {
+    color: #555;
+    font-family: 'Helvetica', sans-serif;
+    line-height: 1.8;
+}
+
+.resume-preview.template-6 .header {
+    text-align: left;
+    border-bottom: 1px solid #bdc3c7;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+}
+
+.resume-preview.template-6 .name {
+    font-size: 24px;
+    font-weight: 300;
+    color: #2c3e50;
+}
+
+.resume-preview.template-6 .section-title {
+    color: #7f8c8d;
+    border-bottom: 1px solid #ecf0f1;
+    font-size: 14px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+}
+
+/* Template 7 - Bold Red */
+.resume-preview.template-7 {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.resume-preview.template-7 .header {
+    background: #e74c3c;
+    color: white;
+    padding: 20px;
+    margin: -20px -20px 20px -20px;
+    transform: skewY(-2deg);
+    margin-top: -30px;
+    padding-top: 30px;
+}
+
+.resume-preview.template-7 .name {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.resume-preview.template-7 .section-title {
+    color: #e74c3c;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    transform: skewX(-10deg);
+}
+
+.resume-preview.template-7 .section-title span {
+    transform: skewX(10deg);
+    display: inline-block;
+}
+
+/* Template 8 - Elegant Teal */
+.resume-preview.template-8 {
+    color: #2c3e50;
+    font-family: 'Times New Roman', serif;
+}
+
+.resume-preview.template-8 .header {
+    text-align: center;
+    border: 3px double #17a2b8;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+}
+
+.resume-preview.template-8 .name {
+    font-size: 28px;
+    color: #17a2b8;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.resume-preview.template-8 .section-title {
+    color: #17a2b8;
+    border-bottom: 2px dotted #17a2b8;
+    font-size: 18px;
+    font-style: italic;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.resume-preview.template-8 .section-title::before {
+    content: '❦';
+    color: #17a2b8;
+    margin-right: 10px;
+}
+
+/* Common styles for all templates */
+.resume-preview .header {
+    margin-bottom: 18px;
+}
+
+.resume-preview .name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.resume-preview .contact {
+    font-size: 11px;
+    color: #666;
+}
+
+.resume-preview .section {
+    margin-bottom: 16px;
+}
+
+.resume-preview .experience-item,
+.resume-preview .education-item,
+.resume-preview .project-item,
+.resume-preview .cert-item,
+.resume-preview .award-item {
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.resume-preview .experience-item:last-child,
+.resume-preview .education-item:last-child,
+.resume-preview .project-item:last-child,
+.resume-preview .cert-item:last-child,
+.resume-preview .award-item:last-child {
+    border-bottom: none;
+}
+
+.resume-preview .job-title {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.resume-preview .company {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.resume-preview .period {
+    float: right;
+    color: #666;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.resume-preview .description {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.resume-preview .skills {
+    font-size: 12px;
+}
+
+.resume-preview .skill-item {
+    display: inline-block;
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+.resume-preview .skill-rating {
+    margin-left: 6px;
+    color: #ffc107;
+    font-size: 11px;
+}
+
+/* ATS Score Display */
+.ats-score {
+    position: sticky;
+    top: 20px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.score-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 0 auto 10px;
+}
+
+.score-excellent { background: #28a745; }
+.score-good { background: #17a2b8; }
+.score-fair { background: #ffc107; color: #333; }
+.score-poor { background: #dc3545; }
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .resume-preview {
+        margin-top: 20px;
+    }
+    
+    .ats-score {
+        position: relative;
+    }
+}
+
+/* Form styling */
+.skill-item, .experience-item, .education-item, .project-item,
+.cert-item, .award-item, .language-item, .hobby-item {
+    position: relative;
+}
+
+.remove-skill, .remove-experience, .remove-education, .remove-project,
+.remove-cert, .remove-award, .remove-language, .remove-hobby {
+    border: none;
+}
+
+/* Loading spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Alert styling */
+.alert {
+    border-radius: 8px;
+}
+
+/* Card hover effects */
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+/* Star rating input */
+.star-rating {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    margin-left: 10px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ddd;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 2px;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffc107;
+}
+
+/* Placeholder text styling in preview */
+.placeholder-text {
+    color: #999 !important;
+    font-style: italic;
+    opacity: 0.7;
+}

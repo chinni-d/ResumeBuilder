@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-file-alt text-primary me-3"></i>
+                ATS-Optimized Resume Builder
+            </h1>
+            <p class="lead mb-5">Create professional, ATS-friendly resumes with dynamic templates. Build, edit, and download your resume in multiple formats.</p>
+            
+            <div class="row mb-5">
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-magic fa-3x text-primary mb-3"></i>
+                            <h5>Dynamic Templates</h5>
+                            <p class="text-muted">Choose from ATS-optimized templates that adapt to your content</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-eye fa-3x text-success mb-3"></i>
+                            <h5>Live Preview</h5>
+                            <p class="text-muted">See your resume update in real-time as you type</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="fas fa-download fa-3x text-info mb-3"></i>
+                            <h5>Multiple Formats</h5>
+                            <p class="text-muted">Download as PDF or DOCX formats</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-block">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-user-plus me-2"></i>Get Started
+                </a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

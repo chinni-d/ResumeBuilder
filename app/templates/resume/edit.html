@@ -1,0 +1,499 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Resume - Resume Builder{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Panel - Form -->
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Resume</h5>
+                </div>
+                <div class="card-body" style="max-height: 90vh; overflow-y: auto;">
+                    <form id="resumeForm">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" id="resumeId" value="{{ resume.id }}">
+                        
+                        <!-- Resume Title -->
+                        <div class="mb-3">
+                            <label for="resume_title" class="form-label">Resume Title</label>
+                            <input type="text" class="form-control" id="resume_title" name="resume_title" value="{{ resume.title }}">
+                        </div>
+                        
+                        <!-- Template Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Template</label>
+                            <select class="form-select" name="template_id" id="template_id">
+                                <option value="1" {{ 'selected' if resume.template_id == 1 }}>Classic</option>
+                                <option value="2" {{ 'selected' if resume.template_id == 2 }}>Modern</option>
+                                <option value="3" {{ 'selected' if resume.template_id == 3 }}>Creative</option>
+                                <option value="4" {{ 'selected' if resume.template_id == 4 }}>Executive</option>
+                                <option value="5" {{ 'selected' if resume.template_id == 5 }}>Tech</option>
+                                <option value="6" {{ 'selected' if resume.template_id == 6 }}>Minimal</option>
+                                <option value="7" {{ 'selected' if resume.template_id == 7 }}>Bold</option>
+                                <option value="8" {{ 'selected' if resume.template_id == 8 }}>Elegant</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Personal Information -->
+                        <h6 class="text-primary border-bottom pb-2">Personal Information</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="full_name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="full_name" name="full_name" value="{{ resume.content.full_name if resume.content and resume.content.full_name else '' }}" placeholder="Your Name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ resume.content.email if resume.content and resume.content.email else '' }}" placeholder="yourname@email.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{ resume.content.phone if resume.content and resume.content.phone else '' }}" placeholder="+1 (555) 123-4567">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" value="{{ resume.content.address if resume.content and resume.content.address else '' }}" placeholder="123 Main St, City, State 12345">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="linkedin" class="form-label">LinkedIn</label>
+                                <input type="url" class="form-control" id="linkedin" name="linkedin" value="{{ resume.content.linkedin if resume.content and resume.content.linkedin else '' }}" placeholder="https://linkedin.com/in/yourname">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="github" class="form-label">GitHub</label>
+                                <input type="url" class="form-control" id="github" name="github" value="{{ resume.content.github if resume.content and resume.content.github else '' }}" placeholder="https://github.com/yourname">
+                            </div>
+                        </div>
+                        
+                        <!-- Professional Summary -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Professional Summary</h6>
+                        <div class="mb-3">
+                            <textarea class="form-control" id="summary" name="summary" rows="4" placeholder="Write a brief professional summary...">{{ resume.content.summary if resume.content else '' }}</textarea>
+                        </div>
+                        
+                        <!-- Skills with Rating -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Skills</h6>
+                        <div id="skillsContainer">
+                            {% if resume.content and resume.content.get_skills() %}
+                                {% for skill in resume.content.get_skills() %}
+                                    <div class="row mb-2 skill-item">
+                                        <div class="col-8">
+                                            <input type="text" class="form-control" name="skill_name[]" value="{{ skill.name }}" placeholder="Skill name">
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="form-select" name="skill_level[]">
+                                                <option value="1" {{ 'selected' if skill.level == 1 }}>⭐</option>
+                                                <option value="2" {{ 'selected' if skill.level == 2 }}>⭐⭐</option>
+                                                <option value="3" {{ 'selected' if skill.level == 3 }}>⭐⭐⭐</option>
+                                                <option value="4" {{ 'selected' if skill.level == 4 }}>⭐⭐⭐⭐</option>
+                                                <option value="5" {{ 'selected' if skill.level == 5 }}>⭐⭐⭐⭐⭐</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" class="btn btn-outline-danger btn-sm remove-skill">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="row mb-2 skill-item">
+                                    <div class="col-8">
+                                        <input type="text" class="form-control" name="skill_name[]" placeholder="Skill name">
+                                    </div>
+                                    <div class="col-3">
+                                        <select class="form-select" name="skill_level[]">
+                                            <option value="1">⭐</option>
+                                            <option value="2">⭐⭐</option>
+                                            <option value="3" selected>⭐⭐⭐</option>
+                                            <option value="4">⭐⭐⭐⭐</option>
+                                            <option value="5">⭐⭐⭐⭐⭐</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-skill">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addSkill">
+                            <i class="fas fa-plus me-1"></i>Add Skill
+                        </button>
+                        
+                        <!-- Experience -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Professional Experience</h6>
+                        <div id="experienceContainer">
+                            {% if resume.content and resume.content.get_experience() %}
+                                {% for exp in resume.content.get_experience() %}
+                                    <div class="experience-item border p-3 mb-3 rounded">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="experience_title[]" placeholder="Job Title" value="{{ exp.title }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="experience_company[]" placeholder="Company" value="{{ exp.company }}">
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control" name="experience_period[]" placeholder="e.g., Jan 2020 - Present" value="{{ exp.period }}">
+                                        </div>
+                                        <div class="mb-2">
+                                            <textarea class="form-control" name="experience_description[]" rows="3" placeholder="Job description and achievements...">{{ exp.description }}</textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-experience">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="experience-item border p-3 mb-3 rounded">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="experience_title[]" placeholder="Job Title">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="experience_company[]" placeholder="Company">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <input type="text" class="form-control" name="experience_period[]" placeholder="e.g., Jan 2020 - Present">
+                                    </div>
+                                    <div class="mb-2">
+                                        <textarea class="form-control" name="experience_description[]" rows="3" placeholder="Job description and achievements..."></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-experience">
+                                        <i class="fas fa-trash me-1"></i>Remove
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addExperience">
+                            <i class="fas fa-plus me-1"></i>Add Experience
+                        </button>
+                        
+                        <!-- Education -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Education</h6>
+                        <div id="educationContainer">
+                            {% if resume.content and resume.content.get_education() %}
+                                {% for edu in resume.content.get_education() %}
+                                    <div class="education-item border p-3 mb-3 rounded">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="education_degree[]" placeholder="Degree" value="{{ edu.degree }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="education_school[]" placeholder="School/University" value="{{ edu.school }}">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="education_year[]" placeholder="Year" value="{{ edu.year }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="education_gpa[]" placeholder="GPA (optional)" value="{{ edu.gpa if edu.gpa else '' }}">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-education">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="education-item border p-3 mb-3 rounded">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="education_degree[]" placeholder="Degree">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="education_school[]" placeholder="School/University">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="education_year[]" placeholder="Year">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="education_gpa[]" placeholder="GPA (optional)">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-education">
+                                        <i class="fas fa-trash me-1"></i>Remove
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addEducation">
+                            <i class="fas fa-plus me-1"></i>Add Education
+                        </button>
+                        
+                        <!-- Projects -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Projects</h6>
+                        <div id="projectsContainer">
+                            {% if resume.content and resume.content.get_projects() %}
+                                {% for proj in resume.content.get_projects() %}
+                                    <div class="project-item border p-3 mb-3 rounded">
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control" name="project_name[]" placeholder="Project Name" value="{{ proj.name }}">
+                                        </div>
+                                        <div class="mb-2">
+                                            <textarea class="form-control" name="project_description[]" rows="2" placeholder="Project description...">{{ proj.description }}</textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="project_technologies[]" placeholder="Technologies used" value="{{ proj.technologies }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="url" class="form-control" name="project_link[]" placeholder="Project link (optional)" value="{{ proj.link if proj.link else '' }}">
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-project">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="project-item border p-3 mb-3 rounded">
+                                    <div class="mb-2">
+                                        <input type="text" class="form-control" name="project_name[]" placeholder="Project Name">
+                                    </div>
+                                    <div class="mb-2">
+                                        <textarea class="form-control" name="project_description[]" rows="2" placeholder="Project description..."></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="project_technologies[]" placeholder="Technologies used">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="url" class="form-control" name="project_link[]" placeholder="Project link (optional)">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-project">
+                                        <i class="fas fa-trash me-1"></i>Remove
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addProject">
+                            <i class="fas fa-plus me-1"></i>Add Project
+                        </button>
+                        
+                        <!-- Certifications -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Certifications</h6>
+                        <div id="certificationsContainer">
+                            {% if resume.content and resume.content.get_certifications() %}
+                                {% for cert in resume.content.get_certifications() %}
+                                    <div class="cert-item border p-3 mb-3 rounded">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="cert_name[]" placeholder="Certification Name" value="{{ cert.name }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="cert_issuer[]" placeholder="Issuing Organization" value="{{ cert.issuer }}">
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <input type="text" class="form-control" name="cert_date[]" placeholder="Date obtained" value="{{ cert.date }}">
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-cert">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="cert-item border p-3 mb-3 rounded">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="cert_name[]" placeholder="Certification Name">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="cert_issuer[]" placeholder="Issuing Organization">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <input type="text" class="form-control" name="cert_date[]" placeholder="Date obtained">
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-cert">
+                                        <i class="fas fa-trash me-1"></i>Remove
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addCert">
+                            <i class="fas fa-plus me-1"></i>Add Certification
+                        </button>
+                        
+                        <!-- Awards -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Awards & Achievements</h6>
+                        <div id="awardsContainer">
+                            {% if resume.content and resume.content.get_awards() %}
+                                {% for award in resume.content.get_awards() %}
+                                    <div class="award-item border p-3 mb-3 rounded">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="award_name[]" placeholder="Award Name" value="{{ award.name }}">
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <input type="text" class="form-control" name="award_date[]" placeholder="Date received" value="{{ award.date }}">
+                                            </div>
+                                        </div>
+                                        <div class="mb-2">
+                                            <textarea class="form-control" name="award_description[]" rows="2" placeholder="Award description...">{{ award.description }}</textarea>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-award">
+                                            <i class="fas fa-trash me-1"></i>Remove
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="award-item border p-3 mb-3 rounded">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="award_name[]" placeholder="Award Name">
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" name="award_date[]" placeholder="Date received">
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <textarea class="form-control" name="award_description[]" rows="2" placeholder="Award description..."></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger btn-sm remove-award">
+                                        <i class="fas fa-trash me-1"></i>Remove
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addAward">
+                            <i class="fas fa-plus me-1"></i>Add Award
+                        </button>
+                        
+                        <!-- Languages -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Languages</h6>
+                        <div id="languagesContainer">
+                            {% if resume.content and resume.content.get_languages() %}
+                                {% for lang in resume.content.get_languages() %}
+                                    <div class="row mb-2 language-item">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" name="language_name[]" placeholder="Language" value="{{ lang.name }}">
+                                        </div>
+                                        <div class="col-5">
+                                            <select class="form-select" name="language_level[]">
+                                                <option value="Beginner" {{ 'selected' if lang.level == 'Beginner' }}>Beginner</option>
+                                                <option value="Intermediate" {{ 'selected' if lang.level == 'Intermediate' }}>Intermediate</option>
+                                                <option value="Advanced" {{ 'selected' if lang.level == 'Advanced' }}>Advanced</option>
+                                                <option value="Fluent" {{ 'selected' if lang.level == 'Fluent' }}>Fluent</option>
+                                                <option value="Native" {{ 'selected' if lang.level == 'Native' }}>Native</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" class="btn btn-outline-danger btn-sm remove-language">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="row mb-2 language-item">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control" name="language_name[]" placeholder="Language">
+                                    </div>
+                                    <div class="col-5">
+                                        <select class="form-select" name="language_level[]">
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate" selected>Intermediate</option>
+                                            <option value="Advanced">Advanced</option>
+                                            <option value="Fluent">Fluent</option>
+                                            <option value="Native">Native</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-language">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addLanguage">
+                            <i class="fas fa-plus me-1"></i>Add Language
+                        </button>
+                        
+                        <!-- Hobbies -->
+                        <h6 class="text-primary border-bottom pb-2 mt-4">Hobbies & Interests</h6>
+                        <div id="hobbiesContainer">
+                            {% if resume.content and resume.content.get_hobbies() %}
+                                {% for hobby in resume.content.get_hobbies() %}
+                                    <div class="input-group mb-2 hobby-item">
+                                        <input type="text" class="form-control" name="hobbies[]" value="{{ hobby }}" placeholder="Enter a hobby">
+                                        <button type="button" class="btn btn-outline-danger remove-hobby">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="input-group mb-2 hobby-item">
+                                    <input type="text" class="form-control" name="hobbies[]" placeholder="Enter a hobby">
+                                    <button type="button" class="btn btn-outline-danger remove-hobby">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm" id="addHobby">
+                            <i class="fas fa-plus me-1"></i>Add Hobby
+                        </button>
+                        
+                        <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-between">
+                            <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            <button type="button" class="btn btn-success" id="saveResume">
+                                <i class="fas fa-save me-2"></i>Save Resume
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel - Preview & ATS Score -->
+        <div class="col-lg-6">
+            <!-- ATS Score Card -->
+            <div class="ats-score mb-3">
+                <div class="text-center">
+                    <h6 class="mb-2">ATS Score</h6>
+                    <div class="score-circle score-fair" id="atsScoreCircle">
+                        <span id="atsScoreValue">{{ resume.ats_score or 0 }}</span>
+                    </div>
+                    <div id="atsRecommendations">
+                        <small class="text-muted">Save to get recommendations</small>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preview Card -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-eye me-2"></i>Live Preview</h5>
+                </div>
+                <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
+                    <div id="resumePreview" class="resume-preview">
+                        <!-- Preview content will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/resume-editor.js') }}"></script>
+{% endblock %}
